@@ -22,7 +22,7 @@ class Omlx < Formula
   end
 
   service do
-    run [opt_bin/"omlx", "serve"]
+    run [opt_bin/"omlx", "serve", "--host", "127.0.0.1", "--port", "8080"]
     keep_alive true
     working_dir var
     log_path var/"log/omlx.log"
