@@ -14,7 +14,9 @@ from pathlib import Path
 __version__ = "0.1.0"
 __author__ = "omlx contributors"
 
-DEFAULT_CONFIG_PATH = Path.home() / ".config" / "omlx" / "config.json"
+# Using XDG_CONFIG_HOME if set, otherwise fall back to ~/.config
+_config_base = Path(os.environ.get("XDG_CONFIG_HOME", Path.home() / ".config"))
+DEFAULT_CONFIG_PATH = _config_base / "omlx" / "config.json"
 
 
 def load_config(config_path: Path = DEFAULT_CONFIG_PATH) -> dict:
@@ -95,60 +97,4 @@ def cmd_remove(args: argparse.Namespace, config: dict) -> int:
 
 def build_parser() -> argparse.ArgumentParser:
     """Build and return the CLI argument parser."""
-    parser = argparse.ArgumentParser(
-        prog="omlx",
-        description="Manage language model configurations from the command line.",
-    )
-    parser.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
-    parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG_PATH,
-                        help="Path to config file (default: ~/.config/omlx/config.json)")
-
-    subparsers = parser.add_subparsers(dest="command")
-
-    # list
-    subparsers.add_parser("list", help="List configured models")
-
-    # add
-    add_parser = subparsers.add_parser("add", help="Add or update a model")
-    add_parser.add_argument("name", help="Model name/alias")
-    add_parser.add_argument("endpoint", help="API endpoint URL")
-    add_parser.add_argument("--api-key-env", dest="api_key_env",
-                            help="Environment variable name holding the API key")
-    add_parser.add_argument("--default", dest="set_default", action="store_true",
-                            help="Set this model as the default")
-
-    # remove
-    rm_parser = subparsers.add_parser("remove", aliases=["rm"], help="Remove a model")
-    rm_parser.add_argument("name", help="Model name/alias to remove")
-
-    return parser
-
-
-def main() -> int:
-    """Entry point for the omlx CLI."""
-    parser = build_parser()
-    args = parser.parse_args()
-
-    config = load_config(args.config)
-
-    commands = {
-        "list": cmd_list,
-        "add": cmd_add,
-        "remove": cmd_remove,
-        "rm": cmd_remove,
-    }
-
-    if args.command is None:
-        parser.print_help()
-        return 0
-
-    handler = commands.get(args.command)
-    if handler is None:
-        print(f"Unknown command: {args.command}", file=sys.stderr)
-        return 1
-
-    return handler(args, config)
-
-
-if __name__ == "__main__":
-    sys.exit(main())
+    parser = argparse
