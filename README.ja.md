@@ -80,7 +80,7 @@ pip install -e ".[mcp]"   # MCP（Model Context Protocol）サポート付き
 
 Python 3.10+とApple Silicon（M1/M2/M3/M4）が必要です。
 
-> **注意（個人メモ）:** M1 MacBook Air 16GBで動作確認済み。`pip install -e ".[mcp]"`を使うと後からMCPを追加するより楽です。
+> **注意（個人メモ）:** M1 MacBook Air 16GBで動作確認済み。`pip install -e ".[mcp]"`を使うと後からMCPを追加するより楽です。仮想環境（`python -m venv .venv && source .venv/bin/activate`）を使うと他のパッケージと依存関係が衝突しにくくなるのでおすすめ。
 
 ## クイックスタート
 
@@ -90,10 +90,4 @@ ApplicationsフォルダからoMLXを起動します。ウェルカム画面が3
 
 <p align="center">
   <img src="docs/images/Screenshot 2026-02-10 at 00.36.32.png" alt="oMLX ウェルカム画面" width="360">
-  <img src="docs/images/Screenshot 2026-02-10 at 00.34.30.png" alt="oMLX メニューバー" width="240">
-</p>
-
-### CLI
-
-```bash
-```
+  <img src="docs/images/
